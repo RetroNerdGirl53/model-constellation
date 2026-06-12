@@ -148,11 +148,11 @@ async def async_chat(self, model, messages, ...):
     return ChatResponse.from_ollama_response(response)
 ```
 
-**Important for this project:** the **live CLI is synchronous** (no `async`). The `async`
-code lives mostly in the *unplugged* `agent/`, `tools/`, and `permissions/` folders. So
-if you're learning the part that actually runs today, you can mostly skip `async` for now.
-Just know: `await x()` means "start x, and pause here until it finishes, letting other
-tasks run meanwhile."
+**Important for this project:** the **CLI is synchronous** (no `async`), but the `agent/`
+framework and the HTTP API are async. The `AgentRuntime` bridges the two — its `run()` is a
+sync wrapper that drives the async engine on a persistent event loop (see
+[chapter 6](06-agent-runtime.md)). Just know: `await x()` means "start x, and pause here
+until it finishes, letting other tasks run meanwhile."
 
 ---
 

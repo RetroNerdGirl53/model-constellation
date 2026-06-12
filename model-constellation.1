@@ -1,5 +1,5 @@
 .\" Man page for model-constellation
-.TH MODEL_CONSTELLATION 1 "March 2026" "model-constellation 1.0.0"
+.TH MODEL_CONSTELLATION 1 "June 2026" "model-constellation 1.1.0"
 .SH NAME
 model_constellation \- Ollama-Powered CLI AI Agent Framework
 .SH SYNOPSIS
@@ -13,11 +13,13 @@ model-constellation is a powerful CLI framework that brings AI agent capabilitie
 The tool provides interactive chat, agent management, agent swarms for parallel task execution, and model management for Ollama.
 .SH COMMANDS
 .SS run [\fIQUERY\fR]
-Run a single query with the model-constellation agent. If no query is provided, starts interactive mode.
+Run a single query with the model-constellation agent. Tools are enabled by default (gated by the permission system); use \fB\-\-no-tools\fR for plain chat. If no query is provided, starts interactive mode.
 .SS interactive
-Start an interactive chat session with the AI agent.
+Start an interactive chat session with the AI agent. Tools are enabled by default; use \fB\-\-no-tools\fR for plain chat.
 .SS tui
 Launch the terminal user interface (TUI) for a rich interactive experience.
+.SS serve
+Start the HTTP API server (FastAPI) exposing the engine over HTTP. Requires the \fBapi\fR extra. Tools are disabled over HTTP unless \fB\-\-allow-tools\fR is given.
 .SS agent
 Manage AI agents. See \fBAGENT COMMANDS\fR below.
 .SS swarm

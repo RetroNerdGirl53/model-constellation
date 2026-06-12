@@ -3,14 +3,19 @@
 Quick definitions for terms used in this project and its docs. Alphabetical.
 
 ### Agent
-A saved AI configuration (which model, personality/system prompt, allowed tools). In the
-**live** part of this project, an agent is literally a JSON file in
-`~/.model-constellation/agents/`. (In the advanced/unplugged layer, it's a Python object —
-see `agent/`.)
+A saved AI configuration (which model, personality/system prompt, allowed tools). Saved
+agents are JSON files in `~/.model-constellation/agents/`; at runtime an agent is a Python
+object in `agent/` driven by the `AgentRuntime` (see [chapter 6](06-agent-runtime.md)).
 
 ### async / await
 A Python style for code that can pause and let other work happen while waiting (e.g. on the
-network). Used mostly in the *unplugged* parts of this project. The live CLI is synchronous.
+network). The `agent/` framework and HTTP API are async; the CLI is synchronous and bridges
+to the async engine via `AgentRuntime` (see [chapter 6](06-agent-runtime.md)).
+
+### AgentRuntime
+The standardized engine (`runtime.py`) that wires the agent, tools, and permission systems
+together and bridges async↔sync. The CLI, SDK, and HTTP API all run through it. See
+[chapter 6](06-agent-runtime.md).
 
 ### CLI (Command-Line Interface)
 A program you operate by typing text commands in a terminal. This entire project is a CLI.
@@ -39,15 +44,16 @@ A fixed set of named choices (e.g. `SwarmMode.PARALLEL`). Prevents invalid value
 
 ### Exa
 A third-party web search/API used by the web tools in `tools/web_extras.py` (search, fetch,
-code search). Part of the unplugged tools layer.
+code search).
 
 ### Generator
 A function using `yield` to produce values one at a time (streaming). Used for streaming AI
 output and download progress.
 
-### Live layer
-Our nickname for the code that actually runs today: `core.py`, `ollama_client.py`,
-`config.py`, `models.py`, `model_manager.py`, `constants.py`, and the active `ui/` files.
+### HTTP API
+The optional FastAPI server (`model_constellation/api/`) that exposes the engine over HTTP
+for use by other apps/languages. Safe-by-default (tools opt-in). See
+[chapter 7](07-backend-api.md).
 
 ### Model
 A specific AI "brain" run by Ollama, e.g. `llama2`, `mistral`, `codellama`. You choose which
@@ -65,7 +71,8 @@ install it from https://ollama.com.
 
 ### Permission system
 The mechanism (in `permissions/`) that decides whether the AI may run a given tool/command,
-flagging dangerous ones like `rm -rf` or `sudo`. Part of the unplugged layer today.
+flagging dangerous ones like `rm -rf` or `sudo`. The single authority for tool gating,
+enforced by the tool executor. Modes: first-time / every-time / allow-all / deny-all.
 
 ### Prompt
 The text sent to the AI. A **system prompt** is a hidden instruction that shapes the AI's
@@ -106,7 +113,8 @@ how many tokens were generated.
 
 ### Tool
 An action the AI can take in the real world: read/write files, run shell commands, search
-the web. Defined in `tools/`; guarded by `permissions/`. Part of the unplugged layer today.
+the web. Defined in `tools/`; gated by `permissions/`; offered to the model by the
+`AgentRuntime`. Tool calling is hybrid (native Ollama tools + `[TOOL_CALL]` text fallback).
 
 ### TUI (Terminal User Interface)
 A full-screen, interactive interface inside the terminal (with themes, panels), as opposed to
@@ -116,9 +124,10 @@ typing one command at a time. Launched with `model-constellation tui`; built on 
 An annotation like `x: str` or `-> bool` describing expected types. Documentation for humans
 and tools; not enforced at runtime. See [chapter 4](04-python-concepts.md).
 
-### Unplugged layer
-Our nickname for the advanced, well-written, but **not-yet-connected** code:
-`agent/`, `tools/`, `permissions/`. The CLI doesn't call it yet. It's the project's future.
+### SDK
+The public Python API exported from the top-level package
+(`from model_constellation import AgentRuntime, OllamaClient, ...`) for embedding the engine
+in other code. See [chapter 7](07-backend-api.md).
 
 ### YAML
 A human-friendly config file format (used for `config.yaml`). Like JSON but with less

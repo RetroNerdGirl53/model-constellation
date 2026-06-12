@@ -43,7 +43,7 @@ model_constellation/            ← repo root
     │
     │  ===== THE LIVE LAYER (this is what runs) =====
     ├── core.py            ★ The heart. All CLI commands live here (run, interactive,
-    │                        agent, swarm, model, config, tui). ~1700 lines.
+    │                        agent, swarm, model, config, tui, serve). ~2050 lines.
     ├── ollama_client.py   ★ The wrapper that actually talks to Ollama over HTTP.
     ├── config.py          ★ Loads/saves settings (config.yaml).
     ├── models.py          ★ Data shapes (Pydantic classes) for config & objects.
@@ -82,11 +82,15 @@ model_constellation/            ← repo root
     │   ├── executor.py        Runs tools (permission-gated, with timeouts).
     │   └── web_extras.py      Web search/fetch via the Exa API.
     │
-    └── permissions/       ★ "Should the AI be allowed to run this?" (the gate).
-        ├── core.py            Decision-maker + caching of past answers.
-        ├── detector.py        Flags dangerous commands (rm -rf, sudo, ...).
-        ├── rules.py           Allow/deny rules.
-        └── prompter.py        Asks the user yes/no.
+    ├── permissions/       ★ "Should the AI be allowed to run this?" (the gate).
+    │   ├── core.py            Decision-maker + caching of past answers.
+    │   ├── detector.py        Flags dangerous commands (rm -rf, sudo, ...).
+    │   ├── rules.py           Allow/deny rules.
+    │   └── prompter.py        Asks the user yes/no.
+    │
+    └── api/               ★ Optional HTTP backend (FastAPI) over the runtime. (NEW)
+        ├── server.py          App factory + endpoints (/v1/chat, /v1/run, /v1/swarm…).
+        └── __main__.py        `python -m model_constellation.api` launcher.
 ```
 
 ★ = read these first.  ⚠ = legacy; come back later.

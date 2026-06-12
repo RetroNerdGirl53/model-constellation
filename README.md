@@ -182,9 +182,14 @@ model-constellation config path
 
 | Command | Description |
 |---------|-------------|
-| `model-constellation run [QUERY]` | Run a query with the agent |
-| `model-constellation interactive` | Start interactive session |
+| `model-constellation run [QUERY]` | Run a query with the agent (tools enabled by default) |
+| `model-constellation interactive` | Start interactive session (tools enabled by default) |
+| `model-constellation tui` | Launch the themed terminal UI |
+| `model-constellation serve` | Start the HTTP API server (requires the `api` extra) |
 | `model-constellation version` | Show version info |
+
+`run` and `interactive` accept `--no-tools` (plain chat), `--agent NAME`, and
+`--permission-mode {first-time,every-time,allow-all,deny-all}`.
 
 ### Agent Subcommands
 
@@ -227,13 +232,13 @@ model-constellation config path
 
 ### Default Configuration Location
 
-- Linux/macOS: `.model-constellation//.model-constellation/config.yaml`
+- Linux/macOS: `~/.model-constellation/config.yaml`
 - Windows: `%USERPROFILE%\.model-constellation\config.yaml`
 
 ### Configuration File Format
 
 ```yaml
-# .model-constellation//.model-constellation/config.yaml
+# ~/.model-constellation/config.yaml
 
 # Ollama connection
 ollama:
@@ -271,7 +276,7 @@ logging:
 |----------|-------------|---------|
 | `MODEL_CONSTELLATION_BASE_URL` | Ollama server URL | http://localhost:11434 |
 | `MODEL_CONSTELLATION_MODEL` | Default model | llama2 |
-| `MODEL_CONSTELLATION_CONFIG` | Config file path | .model-constellation//.model-constellation/config.yaml |
+| `MODEL_CONSTELLATION_CONFIG` | Config file path | ~/.model-constellation/config.yaml |
 | `MODEL_CONSTELLATION_PERMISSION_MODE` | Permission mode | first-time |
 | `MODEL_CONSTELLATION_LOG_LEVEL` | Logging level | info |
 

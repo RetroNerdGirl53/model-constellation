@@ -4,8 +4,8 @@ Earlier chapters warned that `agent/`, `tools/`, and `permissions/` were built b
 **not connected** to the CLI. That's no longer true. This chapter explains the
 **standardized runtime** that wires them together and how the CLI now uses it.
 
-If you read the older "unplugged layer" notes in [02-architecture.md](02-architecture.md),
-treat this chapter as the update.
+If any older notes describe `agent/`, `tools/`, or `permissions/` as "not connected,"
+treat this chapter as the correction — they're wired in now.
 
 ## The one file that ties it together: `runtime.py`
 

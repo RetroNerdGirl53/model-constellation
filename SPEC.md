@@ -2,6 +2,15 @@
 
 ## Specification Document v1.0
 
+> **Status note (as of v1.1.0):** This is the original design specification. The project
+> shipped as **model-constellation** and the agent, tools, and permission subsystems are now
+> implemented and wired together through a standardized `AgentRuntime`, with a Python SDK and
+> an HTTP API. For the as-built system, see [`docs/`](docs/README.md) — especially
+> [docs/06-agent-runtime.md](docs/06-agent-runtime.md) and
+> [docs/07-backend-api.md](docs/07-backend-api.md). Some details below predate the
+> implementation: the project/config prefix is `model-constellation` (env vars are
+> `MODEL_CONSTELLATION_*`, not `TARS_*`) and the current version is 1.1.0.
+
 ---
 
 ## Table of Contents
