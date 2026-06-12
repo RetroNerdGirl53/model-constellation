@@ -1,0 +1,151 @@
+{
+  "actions": [
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "exploration",
+      "description": "Explored codebase structure, found SPEC.md, existing TUI code, models available",
+      "files_modified": [],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "creation",
+      "description": "Created theme system with 8 themes",
+      "files_modified": ["theme.py"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "creation",
+      "description": "Created rich chat interface",
+      "files_modified": ["rich_tui.py"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "creation",
+      "description": "Created model/agent selection screens",
+      "files_modified": ["screens_v2.py"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "creation",
+      "description": "Created CLI integration",
+      "files_modified": ["cli_integration.py"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "modification",
+      "description": "Added TUI command to core",
+      "files_modified": ["core.py"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "bugfix",
+      "description": "Fixed tim() usage -> tim.parse() and tim.print()",
+      "files_modified": ["multiple files"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "bugfix",
+      "description": "Fixed ScrollableWidget -> Container",
+      "files_modified": ["multiple files"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "bugfix",
+      "description": "Fixed InputField.bind.submit -> bind(\"enter\", callback)",
+      "files_modified": ["multiple files"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "bugfix",
+      "description": "Fixed Window styles border KeyError",
+      "files_modified": ["multiple files"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "bugfix",
+      "description": "Fixed alignment enums (pytermgui.alignment.CENTER -> HorizontalAlignment.CENTER)",
+      "files_modified": ["multiple files"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "bugfix",
+      "description": "Fixed Terminal.styles error",
+      "files_modified": ["multiple files"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "refactoring",
+      "description": "Simplified TUI to work with available pytermgui features",
+      "files_modified": ["multiple files"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "bugfix",
+      "description": "Fixed _state.current_model sync with _current_model",
+      "files_modified": ["multiple files"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "bugfix",
+      "description": "Fixed OllamaClient ChatResponse parsing for pydantic responses",
+      "files_modified": ["multiple files"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "testing",
+      "description": "Verified smollm:latest works directly with ollama",
+      "files_modified": [],
+      "result": "pass"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "testing",
+      "description": "Verified ollama client pydantic response parsing issue",
+      "files_modified": [],
+      "result": "fail"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "bugfix",
+      "description": "Fixed ChatResponse.from_ollama_response to handle both dict and pydantic",
+      "files_modified": ["multiple files"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "testing",
+      "description": "Successfully tested TUI with smollm:latest - got working chat",
+      "files_modified": [],
+      "result": "pass"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "bugfix",
+      "description": "Fixed model display showing wrong model - changed line 180 from self._state.current_model to self._current_model",
+      "files_modified": ["rich_tui.py"],
+      "result": "success"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "action_type": "testing",
+      "description": "Full TUI test with smollm:latest - TUI now properly uses model passed via --model flag",
+      "files_modified": [],
+      "result": "pass"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "tests": [
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "test_description": "Verify smollm:latest works directly with ollama",
+      "result": "pass",
+      "notes": "Model runs successfully via ollama CLI",
+      "model_info": "smollm:latest (990MB, sub-1B)"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "test_description": "Verify ollama client pydantic response parsing issue",
+      "result": "fail",
+      "notes": "ChatResponse.from_ollama_response fails with pydantic objects",
+      "model_info": "smollm:latest"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "test_description": "Fix ChatResponse.from_ollama_response to handle both dict and pydantic",
+      "result": "pass",
+      "notes": "Now handles both dict and pydantic responses",
+      "model_info": "smollm:latest"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "test_description": "Test TUI with smollm:latest model",
+      "result": "pass",
+      "notes": "Got working chat, TUI is functional",
+      "model_info": "smollm:latest"
+    },
+    {
+      "timestamp": "2026-03-20T00:00:00Z",
+      "test_description": "Full TUI test with smollm:latest - model display and --model flag working",
+      "result": "pass",
+      "notes": "Chat 'What is 2+2? Answer in one sentence.' Response: 'Two plus two equals four.' Model correctly shown as smollm:latest throughout",
+      "model_info": "smollm:latest"
+    }
+  ]
+}

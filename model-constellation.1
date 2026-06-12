@@ -1,0 +1,274 @@
+.\" Man page for model-constellation
+.TH MODEL_CONSTELLATION 1 "March 2026" "model-constellation 1.0.0"
+.SH NAME
+model_constellation \- Ollama-Powered CLI AI Agent Framework
+.SH SYNOPSIS
+.B model_constellation
+[\fIGLOBAL OPTIONS\fR]
+\fIcommand\fR [\fIcommand options\fR] [\fIarguments\fR]
+.SH DESCRIPTION
+.PP
+model-constellation is a powerful CLI framework that brings AI agent capabilities to your terminal. Built on top of Ollama, it enables you to create and manage AI agents that can execute tasks, run commands, and collaborate in swarms.
+.PP
+The tool provides interactive chat, agent management, agent swarms for parallel task execution, and model management for Ollama.
+.SH COMMANDS
+.SS run [\fIQUERY\fR]
+Run a single query with the model-constellation agent. If no query is provided, starts interactive mode.
+.SS interactive
+Start an interactive chat session with the AI agent.
+.SS tui
+Launch the terminal user interface (TUI) for a rich interactive experience.
+.SS agent
+Manage AI agents. See \fBAGENT COMMANDS\fR below.
+.SS swarm
+Manage agent swarms for parallel task execution. See \fBSWARM COMMANDS\fR below.
+.SS model
+Manage Ollama models. See \fBMODEL COMMANDS\fR below.
+.SS config
+Manage configuration. See \fBCONFIG COMMANDS\fR below.
+.SH GLOBAL OPTIONS
+.TP
+\fB\-\-debug\fR
+Enable debug mode with verbose logging output.
+.TP
+\fB\-\-config\fR \fIPATH\fR
+Path to a custom configuration file.
+.SH RUN COMMAND OPTIONS
+.TP
+\fB\-\-agent\fR, \fB\-a\fR \fITYPE\fR
+Agent type to use: primary, code, or research.
+.TP
+\fB\-\-model\fR, \fB\-m\fR \fIMODEL\fR
+Ollama model to use for the query.
+.TP
+\fB\-\-temperature\fR \fIFLOAT\fR
+Set temperature (0.0\-2.0). Default: 0.7
+.TP
+\fB\-\-top\-p\fR \fIFLOAT\fR
+Set top_p (0.0\-1.0). Default: 0.9
+.TP
+\fB\-\-swarm\fR \fINAME\fR
+Run with an agent swarm.
+.TP
+\fB\-\-parallel\fR
+Enable parallel execution mode.
+.TP
+\fB\-\-timeout\fR \fISECONDS\fR
+Request timeout in seconds.
+.TP
+\fB\-\-no-tools\fR
+Disable tool execution.
+.TP
+\fB\-\-permission-mode\fR \fIMODE\fR
+Permission mode: first-time, every-time, allow-all, or deny-all.
+.SH INTERACTIVE COMMAND OPTIONS
+.TP
+\fB\-\-session\fR \fINAME\fR
+Resume an existing session by name.
+.TP
+\fB\-\-new-session\fR \fINAME\fR
+Create a new named session.
+.TP
+\fB\-\-model\fR \fIMODEL\fR
+Ollama model to use.
+.TP
+\fB\-\-preserve-history\fR
+Keep conversation history after exit.
+.SH AGENT COMMANDS
+.SS agent create \fINAME\fR
+Create a new agent with the given name.
+.TP
+\fB\-\-type\fR \fITYPE\fR
+Agent type: primary, specialized, worker, research, or code. Default: specialized
+.TP
+\fB\-\-mode\fR \fIMODE\fR
+Agent mode: isolated, swarm, or hierarchical. Default: isolated
+.TP
+\fB\-\-model\fR \fIMODEL\fR
+Ollama model for the agent.
+.TP
+\fB\-\-tools\fR \fILIST\fR
+Comma-separated list of tools available to the agent.
+.TP
+\fB\-\-system-prompt\fR \fITEXT\fR
+Custom system prompt for the agent.
+.TP
+\fB\-\-parent\fR \fIID\fR
+Parent agent ID for hierarchical mode.
+.TP
+\fB\-\-swarm\fR \fIID\fR
+Swarm ID for the agent to join.
+.SS agent list
+List all agents. Use \fB\-\-type\fR to filter by agent type, \fB\-\-swarm\fR to filter by swarm, or \fB\-v\fR for verbose output.
+.SS agent info \fIAGENT_ID\fR
+Show detailed information about an agent. Use \fB\-\-history\fR to show conversation history, \fB\-\-tools\fR to show available tools, or \fB\-\-parameters\fR to show model parameters.
+.SS agent delete \fIAGENT_ID\fR
+Delete an agent. Use \fB\-\-force\fR to skip confirmation.
+.SH SWARM COMMANDS
+.SS swarm create \fINAME\fR
+Create a new agent swarm.
+.TP
+\fB\-\-agents\fR \fINUM\fR
+Number of agents in the swarm. Default: 3
+.TP
+\fB\-\-mode\fR \fIMODE\fR
+Swarm mode: parallel, sequential, pipeline, or adaptive. Default: parallel
+.TP
+\fB\-\-type\fR \fITYPE\fR
+Agent type for swarm members. Default: worker
+.TP
+\fB\-\-model\fR \fIMODEL\fR
+Ollama model for all swarm agents.
+.TP
+\fB\-\-shared-tools\fR \fILIST\fR
+Comma-separated list of tools available to all agents.
+.SS swarm list
+List all swarms. Use \fB\-v\fR for verbose output or \fB\-\-active-only\fR to show only running swarms.
+.SS swarm info \fISWARM_ID\fR
+Show information about a swarm. Use \fB\-\-agents\fR to list agents, \fB\-\-status\fR to show execution status, or \fB\-\-history\fR to show activity.
+.SS swarm run \fISWARM_ID\fR \fITASK\fR
+Run a task on a swarm.
+.TP
+\fB\-\-wait\fR
+Wait for task completion.
+.TP
+\fB\-\-timeout\fR \fISECONDS\fR
+Timeout in seconds.
+.TP
+\fB\-\-output-format\fR \fIFORMAT\fR
+Output format: json, text, or stream. Default: text
+.SS swarm delete \fISWARM_ID\fR
+Delete a swarm and all its agents. Use \fB\-\-force\fR to skip confirmation.
+.SH MODEL COMMANDS
+.SS model list
+List available Ollama models.
+.TP
+\fB\-\-local\fR
+Show only local models.
+.TP
+\fB\-\-remote\fR
+Show available remote models.
+.TP
+\fB\-v\fR, \fB\-\-detailed\fR
+Show detailed model information.
+.SS model params [\fIMODEL_NAME\fR]
+Show parameters for a model. Use \fB\-\-show-presets\fR to display available parameter presets.
+.SS model pull \fIMODEL_NAME\fR
+Pull a model from the Ollama library.
+.TP
+\fB\-\-force\fR
+Force pull even if the model already exists.
+.SH CONFIG COMMANDS
+.SS config init
+Initialize the default configuration file.
+.SS config show
+Display the current configuration.
+.SS config validate
+Validate the configuration file syntax.
+.SS config edit
+Open the configuration file in your default editor.
+.SS config path
+Show the configuration file path.
+.SH ENVIRONMENT VARIABLES
+.TP
+\fBMODEL_CONSTELLATION_BASE_URL\fR
+Ollama server URL. Default: http://localhost:11434
+.TP
+\fBMODEL_CONSTELLATION_MODEL\fR
+Default Ollama model. Default: llama2
+.TP
+\fBMODEL_CONSTELLATION_CONFIG\fR
+Path to the configuration file.
+.TP
+\fBMODEL_CONSTELLATION_PERMISSION_MODE\fR
+Permission mode: first-time, every-time, allow-all, or deny-all.
+.TP
+\fBMODEL_CONSTELLATION_LOG_LEVEL\fR
+Logging level: debug, info, warning, error, or critical.
+.TP
+\fBMODEL_CONSTELLATION_NO_COLOR\fR
+Disable colored output when set.
+.SH FILES
+.TP
+\fI~/.model-constellation/config.yaml\fR
+Main configuration file.
+.TP
+\fI~/.model-constellation/agents/\fR
+Directory storing agent definitions.
+.TP
+\fI~/.model-constellation/swarms/\fR
+Directory storing swarm definitions.
+.TP
+\fI~/.model-constellation/sessions/\fR
+Directory storing interactive session history.
+.TP
+\fI~/.model-constellation/logs/\fR
+Application log files.
+.SH EXAMPLES
+.SS Run a simple query
+.PP
+.RS
+.nf
+model-constellation run "What is the capital of France?"
+.fi
+.RE
+.SS Start interactive mode
+.PP
+.RS
+.nf
+model-constellation interactive
+model-constellation interactive --model llama2
+.fi
+.RE
+.SS Create and manage agents
+.PP
+.RS
+.nf
+model-constellation agent create my-agent --type specialized
+model-constellation agent list
+model-constellation agent info my-agent
+model-constellation agent delete my-agent --force
+.fi
+.RE
+.SS Work with agent swarms
+.PP
+.RS
+.nf
+model-constellation swarm create research-team --agents 3 --mode parallel
+model-constellation swarm run research-team "Summarize latest AI news"
+model-constellation swarm list
+.fi
+.RE
+.SS Manage models
+.PP
+.RS
+.nf
+model-constellation model list --local
+model-constellation model list --remote
+model-constellation model pull mistral
+model-constellation model params llama2
+.fi
+.RE
+.SS Configure the application
+.PP
+.RS
+.nf
+model-constellation config init
+model-constellation config show
+model-constellation config path
+.fi
+.RE
+.SS Use custom parameters
+.PP
+.RS
+.nf
+model-constellation run "Write a poem" --model codellama --temperature 0.9 --top-p 0.95
+.fi
+.RE
+.SH SEE ALSO
+.PP
+\fBollama\fR(1), \fBpython\fR(1)
+.PP
+Full documentation is available at: https://github.com/model_constellation/model_constellation
+.SH AUTHOR
+model-constellation Team
