@@ -11,6 +11,50 @@ model-constellation is a powerful CLI framework that brings AI agent capabilitie
 - **Interactive Mode**: Chat with AI agents in an interactive terminal session
 - **Flexible Configuration**: Customize models, permissions, and behavior via YAML config
 - **Rich UI**: Beautiful terminal interface powered by Rich
+- **Tool use & permissions**: Agents call tools (read/write files, run commands,
+  search) gated by a permission system with danger detection
+- **Use as a library or HTTP backend**: a standardized `AgentRuntime` engine, plus an
+  optional FastAPI server, so other apps can embed it
+
+## Documentation
+
+Developer docs live in [`docs/`](docs/README.md):
+
+- [Overview](docs/01-overview.md) and [Architecture](docs/02-architecture.md)
+- [Code walkthrough](docs/03-code-walkthrough.md) and [Python concepts](docs/04-python-concepts.md)
+- [Agent runtime](docs/06-agent-runtime.md) — how the agent, tools, and permission
+  frameworks are wired together
+- [Backend API](docs/07-backend-api.md) — using model-constellation as a Python SDK or
+  HTTP server
+
+## Use as a Library or HTTP Backend
+
+**Python SDK:**
+
+```python
+from model_constellation import AgentRuntime, OllamaClient
+
+runtime = AgentRuntime(OllamaClient(base_url="http://localhost:11434"),
+                       model="llama3.1", permission_mode="allow-all")
+result = runtime.run("List the Python files here and count them")
+print(result.content)
+
+# Multi-/cross-model swarm
+swarm = runtime.run_swarm("Summarize the project",
+                          [{"name": "a", "model": "llama3.1"},
+                           {"name": "b", "model": "qwen2.5"}], mode="parallel")
+```
+
+**HTTP API** (FastAPI, safe-by-default — tools opt-in, no interactive prompts over the wire):
+
+```bash
+pip install "model-constellation[api]"
+model-constellation serve --host 0.0.0.0 --port 8000     # add --allow-tools to enable tools
+
+curl -s localhost:8000/v1/chat -d '{"prompt":"Say hello","model":"llama3.1"}'
+```
+
+See [docs/07-backend-api.md](docs/07-backend-api.md) for the full SDK and endpoint reference.
 
 ## Requirements
 
