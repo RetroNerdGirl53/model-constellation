@@ -27,9 +27,7 @@ first — but the advanced folders are no longer dead code.
 ```
 model_constellation/            ← repo root
 │
-├── main.py            ┐
-├── tars_cli.py        ├─ THREE entry points. All of them ultimately call core.py.
-├── model_constellation/__main__.py  ┘   (Explained below — don't panic, it's redundancy.)
+├── install.sh                  ← convenience installer script (optional)
 │
 ├── pyproject.toml / setup.py   ← project metadata: name, version, dependencies,
 │                                  and the "model-constellation" command definition.
@@ -54,16 +52,11 @@ model_constellation/            ← repo root
     ├── __init__.py          Marks the folder as a package; holds __version__.
     ├── __main__.py          Lets you run `python -m model_constellation`.
     │
-    │  ===== THE TERMINAL UI (partly live, mid-rewrite) =====
+    │  ===== THE TERMINAL UI =====
     └── ui/
         ├── cli_integration.py  ★ Bridge: the `tui` command calls start_themed_tui() here.
         ├── rich_tui.py         ★ The chat UI that actually launches (SimplifiedTUI).
-        ├── theme.py            ★ Color themes (8 of them), saved to disk.
-        ├── screens_v2.py         Newer screen designs (pytermgui).
-        ├── widgets.py            Reusable UI pieces.
-        ├── dialogs.py            Pop-up prompts.
-        ├── terminal.py         ⚠ Older UI manager (legacy).
-        └── screens.py          ⚠ Older screen definitions (legacy).
+        └── theme.py            ★ Color themes (8 of them), saved to disk.
     │
     │  ===== THE AGENT FRAMEWORK (wired in via runtime.py) =====
     ├── agent/             ★ Async agent framework (used by the runtime).
@@ -125,7 +118,7 @@ That's the whole story for a basic query. The next chapter walks it line by line
 - **[Rich](https://rich.readthedocs.io/)** — makes terminal output pretty: colors,
   tables, spinners, progress bars, Markdown rendering.
 
-### How agents & swarms work in the live layer (simpler than you'd think)
+### How agents & swarms are stored (simpler than you'd think)
 
 There is **no clever in-memory object model** in the live path. An "agent" is just a
 JSON file:
@@ -148,25 +141,23 @@ JSON file:
 
 - `agent create` → writes a JSON file.
 - `agent list` → reads all JSON files in the folder and prints a table.
-- `swarm run` → reads the swarm's JSON, then **loops over its agents calling Ollama once
-  per agent** (in `core.py`, function `swarm_run`). "Parallel" mode here is actually a
-  simple `for` loop, not true parallelism. Good to know!
+- `swarm run` → reads the swarm's JSON and hands the agents to `runtime.run_swarm(...)`,
+  which drives the real `AgentSwarm` (`agent/swarm.py`). Parallel mode runs the agents
+  concurrently via `asyncio.gather`; pipeline/sequential modes are also supported, and
+  agents can target different models/hosts (cross-model swarms).
 
-## Why are there THREE entry points?
+## How is it launched?
 
-All three start the same program; they exist for different ways of launching it:
+| How you'd trigger it | What happens |
+|---|---|
+| `model-constellation ...` (installed command) | Runs `core.py` `main()` — `pyproject.toml` points here. |
+| `python -m model_constellation` | `__main__.py` → `core.main()`. |
+| `model-constellation serve` / `python -m model_constellation.api` | Starts the HTTP API (FastAPI) over the same engine. |
 
-| File | How you'd trigger it | Notes |
-|---|---|---|
-| `model_constellation/core.py` `main()` | The installed `model-constellation` command | The real one. `pyproject.toml` points here. |
-| `model_constellation/__main__.py` | `python -m model_constellation` | Standard Python convention. Calls `core.main()`. |
-| `main.py` (repo root) | `python main.py` | Adds logging + a global error handler, then calls `core.cli()`. |
-| `tars_cli.py` (repo root) | `python tars_cli.py` | Older standalone launcher ("TARS" was the old project name). Reconstructs arguments and calls `core.cli()`. |
+**Takeaway:** no matter how it's launched, execution lands in `core.py` (or, for the
+server, in `api/server.py`, which calls the same runtime).
 
-**Takeaway:** no matter how it's launched, execution lands in `core.py`. Don't worry
-about the wrappers.
-
-## The TUI layer (in transition)
+## The TUI layer
 
 `model-constellation tui` opens a full-screen interface. The path is:
 
@@ -174,10 +165,9 @@ about the wrappers.
 core.py  →  ui/cli_integration.py : start_themed_tui()  →  ui/rich_tui.py : SimplifiedTUI
 ```
 
-It's built on **pytermgui**. There are *two generations* of UI code in `ui/`:
-`terminal.py` + `screens.py` are the **old** design; `rich_tui.py` + `screens_v2.py` are
-the **new** one. The new one is what launches. The leftovers haven't been deleted yet —
-common in real projects.
+It's built on **pytermgui**, themed via `ui/theme.py`. (Earlier versions of the project
+carried a second, unused generation of UI modules — `terminal.py`, `screens*.py`,
+`widgets.py`, `dialogs.py` — which have since been removed.)
 
 ## So what is all that `agent/` `tools/` `permissions/` code for?
 

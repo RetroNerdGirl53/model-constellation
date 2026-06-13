@@ -1,77 +1,14 @@
-"""model-constellation UI Package - Terminal User Interface for model-constellation.
+"""model-constellation UI package — themed terminal interface.
 
-This package provides the TUI (Terminal User Interface) components for the model-constellation
-Ollama-powered AI agent CLI framework.
-
-Modules:
-    widgets: Custom widget components for displaying messages, agents, models, etc.
-    dialogs: Dialog components for user interactions (confirmations, inputs, selections)
-    screens: Main UI screens (chat, agent selection, model selection, settings, help)
-    terminal: Terminal UI manager for initializing and running the TUI
+The active TUI is launched via :func:`start_themed_tui` (used by the ``tui`` CLI
+command), which runs the chat app in :mod:`model_constellation.ui.rich_tui` with
+themes from :mod:`model_constellation.ui.theme`.
 
 Usage:
-    from model_constellation.ui import TerminalUI, create_terminal_ui, start_interactive_chat
-
-    # Create and configure the terminal UI
-    terminal = create_terminal_ui()
-
-    # Or start an interactive chat session directly
-    start_interactive_chat()
-
-Key Features:
-    - Interactive message history with rich formatting
-    - Agent/swarm status display
-    - Real-time permission requests
-    - Model selection
-    - Custom widgets for messages, agents, and tools
-    - Keyboard navigation support
+    from model_constellation.ui import start_themed_tui
+    start_themed_tui(theme="ocean")
 """
 
-from model_constellation.ui.terminal import (
-    TerminalUI,
-    TUIConfig,
-    InteractiveChat,
-    create_terminal_ui,
-    start_interactive_chat,
-)
-from model_constellation.ui.screens import (
-    ChatScreen,
-    AgentSelectionScreen,
-    ModelSelectionScreen,
-    SettingsScreen,
-    HelpScreen,
-    SwarmScreen,
-    Screen,
-    build_chat_display,
-    build_agent_list_display,
-    build_model_list_display,
-    build_settings_display,
-    build_help_display,
-)
-from model_constellation.ui.dialogs import (
-    ConfirmationDialog,
-    InputDialog,
-    SelectionDialog,
-    ProgressDialog,
-    PermissionDialog,
-    ModelSelectionDialog,
-    AgentSelectionDialog,
-    SettingsDialog,
-    DialogResult,
-)
-from model_constellation.ui.widgets import (
-    MessageBubble,
-    AgentStatusIndicator,
-    AgentListWidget,
-    ModelInfoDisplay,
-    ToolCallDisplay,
-    SwarmStatusWidget,
-    PermissionRequestDialog,
-    ProgressIndicator,
-    TokenCountDisplay,
-    HeaderWidget,
-    StatusBar,
-)
 from model_constellation.ui.theme import (
     ThemeManager,
     get_themes,
@@ -81,58 +18,9 @@ from model_constellation.ui.theme import (
     ThemePreview,
 )
 from model_constellation.ui.rich_tui import ThemedChatApp
-from model_constellation.ui.screens_v2 import (
-    ModelSelectionScreen,
-    AgentManagementScreen,
-    SettingsScreen,
-    HelpScreen,
-    SwarmManagementScreen,
-    create_screens,
-)
 from model_constellation.ui.cli_integration import start_themed_tui
 
 __all__ = [
-    # Terminal UI
-    "TerminalUI",
-    "TUIConfig",
-    "InteractiveChat",
-    "create_terminal_ui",
-    "start_interactive_chat",
-    # Screens
-    "ChatScreen",
-    "AgentSelectionScreen",
-    "ModelSelectionScreen",
-    "SettingsScreen",
-    "HelpScreen",
-    "SwarmScreen",
-    "Screen",
-    "build_chat_display",
-    "build_agent_list_display",
-    "build_model_list_display",
-    "build_settings_display",
-    "build_help_display",
-    # Dialogs
-    "ConfirmationDialog",
-    "InputDialog",
-    "SelectionDialog",
-    "ProgressDialog",
-    "PermissionDialog",
-    "ModelSelectionDialog",
-    "AgentSelectionDialog",
-    "SettingsDialog",
-    "DialogResult",
-    # Widgets
-    "MessageBubble",
-    "AgentStatusIndicator",
-    "AgentListWidget",
-    "ModelInfoDisplay",
-    "ToolCallDisplay",
-    "SwarmStatusWidget",
-    "PermissionRequestDialog",
-    "ProgressIndicator",
-    "TokenCountDisplay",
-    "HeaderWidget",
-    "StatusBar",
     # Theme
     "ThemeManager",
     "get_themes",
@@ -140,17 +28,10 @@ __all__ = [
     "apply_theme",
     "init_theme",
     "ThemePreview",
-    # Rich TUI
+    # Chat app
     "ThemedChatApp",
-    # Screens V2
-    "ModelSelectionScreen",
-    "AgentManagementScreen",
-    "SettingsScreen",
-    "HelpScreen",
-    "SwarmManagementScreen",
-    "create_screens",
-    # CLI Integration
+    # CLI integration
     "start_themed_tui",
 ]
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

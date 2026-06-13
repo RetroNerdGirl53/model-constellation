@@ -104,8 +104,8 @@ executed in `core.py`'s `swarm_run`.
 See **Prompt**.
 
 ### TARS
-The project's **old name**. You'll see it in `tars_cli.py` and the `TARS_DIR` alias in
-`constants.py`. It's kept only for backward compatibility — same program.
+The project's **old name**. You'll still see the `TARS_DIR` alias in `constants.py`, kept
+for backward compatibility — same program.
 
 ### Token
 A word-piece — the unit AI models read and generate text in. `response.eval_count` reports
