@@ -132,12 +132,9 @@ class TerminalPermissionPrompter:
             return PermissionResult.deny(reason="No interactive input available")
 
         if choice in ("a", "always", "r", "remember"):
-            self.manager.cache_decision(
-                request.tool_name, request.parameters, True, request.session_id
-            )
             return PermissionResult.allow(remember=True, reason="User allowed (remembered)")
         if choice in ("y", "yes"):
-            return PermissionResult.allow(reason="User allowed")
+            return PermissionResult.allow(remember=False, reason="User allowed")
         return PermissionResult.deny(reason="User denied")
 
 
