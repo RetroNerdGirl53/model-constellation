@@ -123,5 +123,8 @@ setup(
     package_data={
         "model_constellation": ["py.typed"],
     },
+    data_files=[
+        ("share/man/man1", ["model-constellation.1"]),
+    ],
     zip_safe=False,
 )

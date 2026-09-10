@@ -104,7 +104,7 @@ install_man_page() {
     
     MAN_DIR=$(get_man_dir)
     MAN_FILE="$MAN_DIR/$BINARY_NAME.1"
-    SOURCE_MAN_PAGE="$SCRIPT_DIR/model_constellation.1"
+    SOURCE_MAN_PAGE="$SCRIPT_DIR/model-constellation.1"
     
     mkdir -p "$MAN_DIR"
     
