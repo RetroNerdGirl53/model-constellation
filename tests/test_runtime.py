@@ -126,3 +126,26 @@ def test_terminal_prompter_remember_caches_allow(monkeypatch):
     # Second, separate check should now hit the cache (no input needed).
     decision = pm.check_permission("ls", {"path": "."}, category="file", session_id="sess-remember")
     assert decision.allowed is True
+
+
+def test_terminal_prompter_first_time_mode_yes_caches_allow(monkeypatch):
+    pm = PermissionManager(mode=PermissionMode.FIRST_TIME)
+    prompter = TerminalPermissionPrompter(pm)
+    pm.set_prompt_callback(prompter)
+
+    inputs = iter(["y"])  # "yes" in FIRST_TIME mode
+    monkeypatch.setattr("builtins.input", lambda *a, **k: next(inputs))
+
+    rt = AgentRuntime(
+        ScriptedClient([("", [native_call("ls", path=".")]), ("done", None)]),
+        model="fake-model",
+        permission_manager=pm,
+        tool_names=["ls"],
+        session_id="sess-first-time",
+    )
+    result = rt.run("list")
+    assert result.tool_executions[0]["success"] is True
+
+    # In FIRST_TIME mode, subsequent permission checks for the same tool/session should be cached and not call input again
+    decision = pm.check_permission("ls", {"path": "."}, category="file", session_id="sess-first-time")
+    assert decision.allowed is True

@@ -436,7 +436,15 @@ class PermissionManager:
             PermissionResult with the user's decision.
         """
         if self._prompt_callback:
-            return self._prompt_callback(request)
+            result = self._prompt_callback(request)
+            if result.remember or self.mode == PermissionMode.FIRST_TIME:
+                self.cache_decision(
+                    tool_name=request.tool_name,
+                    parameters=request.parameters,
+                    allowed=result.allowed,
+                    session_id=request.session_id,
+                )
+            return result
 
         logger.warning(f"No prompt callback set, defaulting to deny for {request.tool_name}")
         return PermissionResult.deny(reason="No prompt callback configured")
